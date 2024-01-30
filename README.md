@@ -50,3 +50,15 @@ Os programas "ia-dummy.py" e "ia-random.py" são exemplos de agentes deste jogo.
 
 ## Personalização
 As imagens de exemplo são do Palword®. Mas facilmente é possível trocar as imagens da pasta "images" para deixar o tema da batalha como desejar.
+
+
+## Como rodar
+Necessário ter Python e a biblioteca pygame:
+```console
+pip3 install pygame
+```
+
+Depois rode o programa `board`
+```console
+python board.py
+```

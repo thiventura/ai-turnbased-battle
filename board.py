@@ -32,6 +32,7 @@ pos_heart = POS_HEART
 board[pos_player1] = 1
 board[pos_player2] = 2
 board[pos_gun] = 3
+board[pos_heart] = 4
 lifes = [9, 9]
 bullets = [0, 0]
 block = [0, 0]
@@ -89,7 +90,7 @@ def updateScreen(status, player1_attack, player2_attack):
     elif player2_attack:
         screen.blit(attack, (player2_xy[0]-100,player2_xy[1]-100))
 
-    # Blocl
+    # Block
     if block[0]:
         screen.blit(defense, (player1_xy[0]-100,player1_xy[1]-100))
     elif block[1]:

@@ -73,10 +73,16 @@ def updateScreen(status, player1_attack, player2_attack):
         screen.blit(heart, heart_xy)
 
     # Health Bar
-    pygame.draw.rect(screen, (255,0,0), (player1_xy[0] + 20, player1_xy[1] - 15, 45, 10))
-    pygame.draw.rect(screen, (0,128,0), (player1_xy[0] + 20, player1_xy[1] - 15, 45 - (5 * (9 - lifes[0])), 10))
-    pygame.draw.rect(screen, (255,0,0), (player2_xy[0] + 20, player2_xy[1] - 15, 45, 10))
-    pygame.draw.rect(screen, (0,128,0), (player2_xy[0] + 20, player2_xy[1] - 15, 45 - (5 * (9 - lifes[1])), 10))
+    healthBarOffset1 = 0
+    healthBarOffset2 = 0
+    if pos_player1 < GRID_SIZE:
+        healthBarOffset1 = 80
+    if pos_player2 < GRID_SIZE:
+        healthBarOffset2 = 80
+    pygame.draw.rect(screen, (255,0,0), (player1_xy[0] + 20, player1_xy[1] - 15 + healthBarOffset1, 45, 10))
+    pygame.draw.rect(screen, (0,128,0), (player1_xy[0] + 20, player1_xy[1] - 15 + healthBarOffset1, 45 - (5 * (9 - lifes[0])), 10))
+    pygame.draw.rect(screen, (255,0,0), (player2_xy[0] + 20, player2_xy[1] - 15 + healthBarOffset2, 45, 10))
+    pygame.draw.rect(screen, (0,128,0), (player2_xy[0] + 20, player2_xy[1] - 15 + healthBarOffset2, 45 - (5 * (9 - lifes[1])), 10))
 
     # Bullets
     for i in range(bullets[0]):

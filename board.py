@@ -1,20 +1,26 @@
 import pygame
 import os
 import random
+from random import choice, SystemRandom
 import time
 import subprocess
 
 pygame.init()
 
 # Configuration
-PROGRAM_1 = ['python', 'ia-random.py']
+PROGRAM_1 = ['python', 'ia-dummy.py'] 
 PROGRAM_2 = ['python', 'ia-dummy.py']
 WIDTH, HEIGHT = 500, 500
 GRID_SIZE = 5
-POS_PLAYER_1 = 6
-POS_PLAYER_2 = 18
-POS_GUN = 20
-POS_HEART = 4
+ARR = []
+random = SystemRandom()
+POS_PLAYER_1 = choice([i for i in range(0, GRID_SIZE ** 2) if i not in ARR])
+ARR.append(POS_PLAYER_1)
+POS_PLAYER_2 = choice([i for i in range(0, GRID_SIZE ** 2) if i not in ARR])
+ARR.append(POS_PLAYER_2)
+POS_GUN = choice([i for i in range(0, GRID_SIZE ** 2) if i not in ARR])
+ARR.append(POS_GUN)
+POS_HEART = choice([i for i in range(0, GRID_SIZE ** 2) if i not in ARR])
 AMMO = 5
 
 # State
@@ -38,7 +44,7 @@ bullets = [0, 0]
 block = [0, 0]
 
 # Setup
-screen = pygame.display.set_mode((WIDTH, HEIGHT+50))
+screen = pygame.display.set_mode((WIDTH, HEIGHT+100))
 pygame.display.set_caption("AI turn-based battle")
 background = pygame.image.load(os.path.join("images", "background.png")).convert()
 player1 = pygame.image.load(os.path.join("images", "palA100.png")).convert_alpha()
@@ -54,35 +60,32 @@ font = pygame.font.SysFont("comicsans", 20, True)
 
 # Update screen
 def updateScreen(status, player1_attack, player2_attack):
+
+    pygame.draw.rect(screen, (255,255,255), (0, 0, WIDTH, 50))
+
     # x,y positions
-    player1_xy = [(pos_player1 % GRID_SIZE) * (WIDTH//(GRID_SIZE)), (pos_player1 // GRID_SIZE) * (HEIGHT//(GRID_SIZE))]
-    player2_xy = [(pos_player2 % GRID_SIZE) * (WIDTH//(GRID_SIZE)), (pos_player2 // GRID_SIZE) * (HEIGHT//(GRID_SIZE))]
+    player1_xy = [(pos_player1 % GRID_SIZE) * (WIDTH//(GRID_SIZE)), 50 + (pos_player1 // GRID_SIZE) * (HEIGHT//(GRID_SIZE))]
+    player2_xy = [(pos_player2 % GRID_SIZE) * (WIDTH//(GRID_SIZE)), 50 + (pos_player2 // GRID_SIZE) * (HEIGHT//(GRID_SIZE))]
     
-    screen.blit(background, (0, 0))
+    screen.blit(background, (0, 50))
     screen.blit(player1, player1_xy)
     screen.blit(player2, player2_xy)
 
     # drawing gun if available
     if pos_gun >= 0:
-        gun_xy = [(pos_gun % GRID_SIZE) * (WIDTH//(GRID_SIZE)) + 10, (pos_gun // GRID_SIZE) * (HEIGHT//(GRID_SIZE)) + 10]
+        gun_xy = [(pos_gun % GRID_SIZE) * (WIDTH//(GRID_SIZE)) + 10, 50 + (pos_gun // GRID_SIZE) * (HEIGHT//(GRID_SIZE)) + 10]
         screen.blit(gun, gun_xy)
 
     # drawing heart if available
     if pos_heart >= 0:
-        heart_xy = [(pos_heart % GRID_SIZE) * (WIDTH//(GRID_SIZE)) + 15, (pos_heart // GRID_SIZE) * (HEIGHT//(GRID_SIZE)) + 15]
+        heart_xy = [(pos_heart % GRID_SIZE) * (WIDTH//(GRID_SIZE)) + 15, 50 + (pos_heart // GRID_SIZE) * (HEIGHT//(GRID_SIZE)) + 15]
         screen.blit(heart, heart_xy)
 
     # Health Bar
-    healthBarOffset1 = 0
-    healthBarOffset2 = 0
-    if pos_player1 < GRID_SIZE:
-        healthBarOffset1 = 80
-    if pos_player2 < GRID_SIZE:
-        healthBarOffset2 = 80
-    pygame.draw.rect(screen, (255,0,0), (player1_xy[0] + 20, player1_xy[1] - 15 + healthBarOffset1, 45, 10))
-    pygame.draw.rect(screen, (0,128,0), (player1_xy[0] + 20, player1_xy[1] - 15 + healthBarOffset1, 45 - (5 * (9 - lifes[0])), 10))
-    pygame.draw.rect(screen, (255,0,0), (player2_xy[0] + 20, player2_xy[1] - 15 + healthBarOffset2, 45, 10))
-    pygame.draw.rect(screen, (0,128,0), (player2_xy[0] + 20, player2_xy[1] - 15 + healthBarOffset2, 45 - (5 * (9 - lifes[1])), 10))
+    pygame.draw.rect(screen, (128,0,0), (player1_xy[0] + 20, player1_xy[1] - 15, 45, 10))
+    pygame.draw.rect(screen, (0,128,0), (player1_xy[0] + 20, player1_xy[1] - 15, 45 - (5 * (9 - lifes[0])), 10))
+    pygame.draw.rect(screen, (128,0,0), (player2_xy[0] + 20, player2_xy[1] - 15, 45, 10))
+    pygame.draw.rect(screen, (0,128,0), (player2_xy[0] + 20, player2_xy[1] - 15, 45 - (5 * (9 - lifes[1])), 10))
 
     # Bullets
     for i in range(bullets[0]):
@@ -103,9 +106,9 @@ def updateScreen(status, player1_attack, player2_attack):
         screen.blit(defense, (player2_xy[0]-100,player2_xy[1]-100))
 
     # set status: text, anti-aliasing, color
-    pygame.draw.rect(screen, (0,128,0), (0, 500, WIDTH, 50))
-    status = font.render(status, 1, (255,255,255)) 
-    screen.blit(status, (20, 500))
+    pygame.draw.rect(screen, (255,255,255), (0, 550, WIDTH, 50))
+    status = font.render(status, 1, (0,0,0)) 
+    screen.blit(status, (20, 550))
     
     pygame.display.flip()
 
@@ -280,21 +283,28 @@ while running:
 
     # Get command
     parameter = ""
+    command = ""
     if player1_turn:
         parameter = PROGRAM_1 + ['1'] + [''.join(str(item) for item in board)] + [str(lifes[0]), str(lifes[1])] + [str(bullets[0]), str(bullets[1])]
     else:
         parameter = PROGRAM_2 + ['2'] + [''.join(str(item) for item in board)] + [str(lifes[0]), str(lifes[1])] + [str(bullets[0]), str(bullets[1])]
+    command = subprocess.run(parameter)
     command = subprocess.getoutput(parameter)
-    time.sleep(0.3)
+    time.sleep(0.1)
 
     # Updating
     status, player1_attack, player2_attack = updateState(command)
     updateScreen( status, player1_attack, player2_attack )
 
     # Game Over!
-    if lifes[0] <= 0 or lifes[1] <= 0:
+    if lifes[0] <= 0:
         running = False
-        updateScreen("Fim de jogo!", False, False)
+        updateScreen("Jogador 2 Venceu", False, False)
+        time.sleep(5)
+    
+    if lifes[1] <= 0:
+        running = False
+        updateScreen("Jogador 1 Venceu", False, False)
         time.sleep(5)
         
     player1_turn = not player1_turn

@@ -2,7 +2,7 @@
 Jogo criado para a disciplina de Inteligência Artificial do Instituto de Computação da UFMT. O propósito é que os alunos criem os scripts que decidirão quais ações os personagens devem fazer para alcançar a vitória.
 
 <div align="center">
-<img src="https://github.com/thiventura/ai-turnbased-battle/assets/26909742/c05ac327-f9a3-4913-b3ab-f1cf8f0e22ca" alt="Printscreen do jogo" style="height: 300px"/>
+<img src="./images/screenshot-game.png" alt="Printscreen do jogo" style="height: 300px"/>
 </div>
 
 

@@ -11,7 +11,7 @@ O jogo é uma batalha por turno, no qual 2 personagens lutam entre si. Em cada t
 
 Os personagens começam com 9 vidas e as ações permitidas são: se mover (cima, baixo, direita, esquerda), atacar ou se defender.
 
-No cenário, além dos personagens, há 1 coração e 1 arma. O personagem que pegar primeiro o coração tem sua vida completa novamente. E o personagem que pegar primeiro a arma tem os próximos 5 ataques com dano aumentado. Todos esses componentes estarão em um tabuleiro 5x5.
+No cenário, além dos personagens, há dois itens: 1 para recuperar a vida e 1 para aumentar o dano dos ataques. O personagem que pegar primeiro o item de vida tem sua vida completa novamente. E o personagem que pegar primeiro o item de dano tem os próximos 5 ataques com dano aumentado. Todos esses componentes estarão em um tabuleiro 5x5.
 
 Algumas regras:
 - O personagem se move apenas 1 quadrado por ação de movimento
@@ -31,7 +31,7 @@ Os programas dos agentes inteligentes serão chamados por linha de comando. Assi
 
 Um estado tem os seguintes atributos:
 - id do seu personagem (1 ou 2)
-- configuração do tabuleiro contendo 25 números (5x5), no qual: 0 é espaço vazio, 1 é o jogador 1, 2 é o jogador 2, 3 é a arma, 4 é o coração
+- configuração do tabuleiro contendo 25 números (5x5), no qual: 0 é espaço vazio, 1 é o jogador 1, 2 é o jogador 2, 3 é o item de ataque, 4 é o item de vida
 - vida do jogador 1 (0 a 9)
 - vida do jogador 2 (0 a 9)
 - munição do jogador 1 (0 a 5)
@@ -39,7 +39,7 @@ Um estado tem os seguintes atributos:
 
 Um exemplo de estado é: 2 0000401000000000002030000 9 9 0 0. Isso significa que:
 - É a vez do jogador 2
-- O coração está na posição [0,4], o jogador 1 na [1,1], o jogador 2 na [3,3] e a arma na [4,0]
+- O item de vida está na posição [0,4], o jogador 1 na [1,1], o jogador 2 na [3,3] e o item de ataque na [4,0]
 - Ambos jogadores estão com 9 vidas
 - Ambos jogadores estão com 0 munições
 
@@ -49,7 +49,7 @@ Os programas "ia-dummy.py" e "ia-random.py" são exemplos de agentes deste jogo.
 
 
 ## Personalização
-As imagens de exemplo são do Palword®. Mas facilmente é possível trocar as imagens da pasta "images" para deixar o tema da batalha como desejar.
+As imagens de exemplo são do Naruto®. Mas facilmente é possível trocar as imagens da pasta "images" para deixar o tema da batalha como desejar.
 
 
 ## Como rodar
